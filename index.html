@@ -23,12 +23,10 @@
       <li><a href="#">Our Certificate</a></li>
       <li><a href="#">Donate</a></li>
     </ul>
-    <button class="nav-login" onclick="window.location.href='login.html'">
-        User Login
-    </button>
-    <button class="nav-login" onclick="window.location.href='admin-login.html'">
-        Admin Login
-    </button>
+    <div id="auth-buttons" style="display: flex; align-items: center;">
+      <button class="nav-cta" onclick="window.location.href='login.html'">User Login</button>
+      <button class="nav-cta" onclick="window.location.href='admin-login.html'">Admin Login</button>
+    </div>
 
     <button class="nav-cta">Donate Now</button>
   </nav>
@@ -78,101 +76,103 @@
 
 
   <!-- JOIN TEAM SECTION -->
-<div class="join-section">
-  <div class="join-container">
-<!-- LEFT IMAGE -->
-<div class="join-image">
-  <img src="images/team.png" alt="Join our team">
-</div>
-<!-- RIGHT CONTENT -->
-<div class="join-content">
-  <p class="join-sub">JOIN OUR</p>
-  <h2 class="join-title">TEAM</h2>
-  <p class="join-text">
-    Join our team and make a difference in the lives of women in need.
-    At She Can Foundation, we are committed to creating positive change
-    and empowering women in communities across the globe.
-    By joining our team, you will have the opportunity to contribute your
-    time, skills, and ideas to create real impact.
-  </p>
-  <button class="join-btn" onclick="document.querySelector('.section').scrollIntoView({behavior:'smooth'})">
-    JOIN US
-  </button>
-</div>
-  </div>
-</div>
-  <!-- FORM -->
-  <div class="section">
-    <p class="section-label">Apply Now</p>
-    <h2 class="section-title">Tech Internship Application</h2>
-    <p class="section-sub">Fill in your details below and our team will reach out within 2–3 business days.</p>
-
-    <div class="card">
-      <div id="form-section">
-
-        <div class="row">
-          <div class="field">
-            <label><i class="ti ti-user"></i> First name</label>
-            <input type="text" id="fname" placeholder="Riya" />
-          </div>
-          <div class="field">
-            <label><i class="ti ti-user"></i> Last name</label>
-            <input type="text" id="lname" placeholder="Mokale" />
-          </div>
-        </div>
-
-        <div class="field">
-          <label><i class="ti ti-mail"></i> Email address</label>
-          <input type="email" id="email" placeholder="riya@example.com" />
-        </div>
-
-        <div class="field">
-          <label><i class="ti ti-phone"></i> Phone number</label>
-          <input type="tel" id="phone" placeholder="+91 98765 43210" />
-        </div>
-
-        <div class="field">
-          <label><i class="ti ti-device-laptop"></i> Area of interest</label>
-          <select id="interest">
-            <option value="" disabled selected>Select your interest</option>
-            <option>Frontend Development</option>
-            <option>Backend Development</option>
-            <option>Full Stack Development</option>
-            <option>UI / UX Design</option>
-            <option>Data Science</option>
-            <option>Other</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label><i class="ti ti-message"></i> Your message</label>
-          <textarea
-            id="msg"
-            placeholder="Tell us about yourself and why you want to intern with SheCan Foundation..."
-            maxlength="500"
-            oninput="document.getElementById('cc').textContent = this.value.length + '/500'"
-          ></textarea>
-          <div class="char-count" id="cc">0/500</div>
-        </div>
-
-        <div class="divider">
-          <div class="divider-line"></div>
-          <span class="divider-text">ready to make an impact?</span>
-          <div class="divider-line"></div>
-        </div>
-
-        <button class="submit-btn" onclick="submitForm()">
-          <i class="ti ti-send"></i> Submit Application
-        </button>
-
+  <div class="join-section">
+    <div class="join-container">
+      <!-- LEFT IMAGE -->
+      <div class="join-image">
+        <img src="images/team.png" alt="Join our team">
       </div>
+      <!-- RIGHT CONTENT -->
+      <div class="join-content">
+        <p class="join-sub">JOIN OUR</p>
+        <h2 class="join-title">TEAM</h2>
+        <p class="join-text">
+          Join our team and make a difference in the lives of women in need. At She Can Foundation, we are committed to creating positive change and empowering women in communities across the globe. By joining our team, you will have the opportunity to contribute your time, skills, and ideas to help make a real impact in the lives of women. Whether you are passionate about education, health, or providing support during times of crisis, there is a place for you on our team. Join us today and be a part of an organization that is dedicated to creating a more equitable society, one woman at a time.
+        </p>
+        <button class="join-btn" onclick="openModal()">
+          JOIN US
+        </button>
+      </div>
+    </div>
+  </div>
 
-      <!-- SUCCESS STATE -->
-      <div class="success" id="success-section">
-        <div class="success-icon"><i class="ti ti-check"></i></div>
-        <h3>Application Submitted!</h3>
-        <p>Thank you for applying. The SheCan team will get back to you within 2–3 business days.</p>
-        <button class="reset-btn" onclick="resetForm()">Submit another response</button>
+  <!-- FORM MODAL -->
+  <div id="formModal" class="modal-overlay" onclick="closeModalOnOverlay(event)">
+    <div class="modal-content">
+      <button class="modal-close-btn" onclick="closeModal()">&times;</button>
+      <div class="section" style="padding: 0; max-width: 100%;">
+        <p class="section-label">Apply Now</p>
+        <h2 class="section-title">Tech Internship Application</h2>
+        <p class="section-sub">Fill in your details below and our team will reach out within 2–3 business days.</p>
+
+        <div class="card" style="margin-top: 1rem;">
+          <div id="form-section">
+
+            <div class="row">
+              <div class="field">
+                <label><i class="ti ti-user"></i> First name</label>
+                <input type="text" id="fname" placeholder="Riya" />
+              </div>
+              <div class="field">
+                <label><i class="ti ti-user"></i> Last name</label>
+                <input type="text" id="lname" placeholder="Mokale" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label><i class="ti ti-mail"></i> Email address</label>
+              <input type="email" id="email" placeholder="riya@example.com" />
+            </div>
+
+            <div class="field">
+              <label><i class="ti ti-phone"></i> Phone number</label>
+              <input type="tel" id="phone" placeholder="+91 98765 43210" />
+            </div>
+
+            <div class="field">
+              <label><i class="ti ti-device-laptop"></i> Area of interest</label>
+              <select id="interest">
+                <option value="" disabled selected>Select your interest</option>
+                <option>Frontend Development</option>
+                <option>Backend Development</option>
+                <option>Full Stack Development</option>
+                <option>UI / UX Design</option>
+                <option>Data Science</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label><i class="ti ti-message"></i> Your message</label>
+              <textarea
+                id="msg"
+                placeholder="Tell us about yourself and why you want to intern with SheCan Foundation..."
+                maxlength="500"
+                oninput="document.getElementById('cc').textContent = this.value.length + '/500'"
+              ></textarea>
+              <div class="char-count" id="cc">0/500</div>
+            </div>
+
+            <div class="divider">
+              <div class="divider-line"></div>
+              <span class="divider-text">ready to make an impact?</span>
+              <div class="divider-line"></div>
+            </div>
+
+            <button class="submit-btn" onclick="submitForm()">
+              <i class="ti ti-send"></i> Submit Application
+            </button>
+
+          </div>
+
+          <!-- SUCCESS STATE -->
+          <div class="success" id="success-section">
+            <div class="success-icon"><i class="ti ti-check"></i></div>
+            <h3>Application Submitted!</h3>
+            <p>Thank you for applying. The SheCan team will get back to you within 2–3 business days.</p>
+            <button class="reset-btn" onclick="resetForm()">Submit another response</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -183,6 +183,18 @@
   </footer>
 
   <script>
+    function openModal() {
+        document.getElementById('formModal').classList.add('active');
+    }
+    function closeModal() {
+        document.getElementById('formModal').classList.remove('active');
+    }
+    function closeModalOnOverlay(e) {
+        if (e.target === document.getElementById('formModal')) {
+            closeModal();
+        }
+    }
+
     async function submitForm() {
         if (!localStorage.getItem("user")) {
             alert("Please login first");
@@ -248,6 +260,34 @@
     if (slides.length > 0) {
       setInterval(nextSlide, 3500); // Change image every 3.5 seconds
     }
+
+    // Auth UI Update
+    function updateAuthUI() {
+        const authContainer = document.getElementById("auth-buttons");
+        const donateBtn = `<button class="nav-cta">Donate Now</button>`;
+
+        if (localStorage.getItem("admin") === "true") {
+            authContainer.innerHTML = `
+                <span style="font-size: 13px; color: rgba(255,255,255,0.55); background: rgba(232,66,10,0.15); border: 1px solid rgba(232,66,10,0.3); padding: 6px 12px; border-radius: 6px;">Admin</span>
+                <button class="nav-cta" onclick="window.location.href='admin.html'">Panel</button>
+                <button class="nav-cta" onclick="logout()">Logout</button>
+                ${donateBtn}
+            `;
+        } else if (localStorage.getItem("user") === "true") {
+            authContainer.innerHTML = `
+                <span style="font-size: 13px; color: rgba(255,255,255,0.55); background: rgba(232,66,10,0.15); border: 1px solid rgba(232,66,10,0.3); padding: 6px 12px; border-radius: 6px;">Logged In</span>
+                <button class="nav-cta" onclick="logout()">Logout</button>
+                ${donateBtn}
+            `;
+        }
+    }
+
+    function logout() {
+        localStorage.clear();
+        window.location.reload();
+    }
+
+    updateAuthUI();
   </script>
 
 </body>

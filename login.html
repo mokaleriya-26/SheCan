@@ -1,31 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Login – SheCan Foundation</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: linear-gradient(135deg, #0d0d1a 0%, #1a0a00 60%, #2a0800 100%);
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    /* Glow orb */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -100px; right: -100px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(232,66,10,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Back link */
+    .back-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,0.45);
+      font-size: 13px;
+      text-decoration: none;
+      margin-bottom: 1.5rem;
+      transition: color 0.15s;
+      align-self: flex-start;
+      margin-left: calc(50% - 195px);
+    }
+    .back-link:hover { color: #e8420a; }
+
+    /* Card */
+    .card {
+      background: rgba(19, 19, 31, 0.95);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 390px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03);
+      overflow: hidden;
+    }
+
+    /* Logo area */
+    .logo-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 1.75rem 2rem 1rem;
+    }
+    .logo-bar img {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+    .logo-text {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .logo-text span { color: #e8420a; }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      margin: 0 0 0 0;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 14px;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.4);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: color 0.15s;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      letter-spacing: 0.3px;
+    }
+    .tab-btn.active {
+      color: #e8420a;
+      border-bottom-color: #e8420a;
+    }
+    .tab-btn:hover:not(.active) { color: rgba(255,255,255,0.7); }
+
+    /* Panels */
+    .panel { display: none; padding: 1.75rem 2rem 2rem; }
+    .panel.active { display: block; }
+
+    /* Labels */
+    .field { margin-bottom: 1rem; }
+    .field label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 7px;
+    }
+    .field label i { font-size: 13px; color: #e8420a; }
+
+    /* Inputs */
+    .field input {
+      width: 100%;
+      padding: 11px 14px;
+      background: #0d0d1a;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .field input::placeholder { color: rgba(255,255,255,0.2); }
+    .field input:focus {
+      border-color: #e8420a;
+      box-shadow: 0 0 0 3px rgba(232,66,10,0.15);
+    }
+    .field input.error { border-color: #ff4444; box-shadow: 0 0 0 3px rgba(255,68,68,0.12); }
+
+    /* Submit button */
+    .submit-btn {
+      width: 100%;
+      padding: 13px;
+      background: #e8420a;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.15s, transform 0.1s;
+      text-transform: uppercase;
+      margin-top: 0.5rem;
+    }
+    .submit-btn:hover { background: #c73508; }
+    .submit-btn:active { transform: scale(0.98); }
+
+    /* Message banner */
+    .msg {
+      display: none;
+      font-size: 13px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      align-items: center;
+      gap: 8px;
+    }
+    .msg.show { display: flex; }
+    .msg.error { background: rgba(255,68,68,0.1); border: 1px solid rgba(255,68,68,0.3); color: #ff6b6b; }
+    .msg.success { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); color: #4ade80; }
+
+    /* Divider */
+    .divider {
+      display: flex; align-items: center; gap: 10px;
+      margin: 1.25rem 0;
+    }
+    .divider-line { flex: 1; height: 1px; background: rgba(255,255,255,0.07); }
+    .divider-text { font-size: 11px; color: rgba(255,255,255,0.2); letter-spacing: 0.5px; }
+
+    /* Footer text */
+    .card-footer {
+      text-align: center;
+      padding: 0 2rem 1.5rem;
+      font-size: 12px;
+      color: rgba(255,255,255,0.25);
+    }
+  </style>
+</head>
+<body>
+
+  <a href="index.html" class="back-link"><i class="ti ti-arrow-left"></i> Back to Home</a>
+
+  <div class="card">
+    <div class="logo-bar">
+      <img src="images/logo.jpg" alt="SheCan Logo">
+      <span class="logo-text">She<span>Can</span> Foundation</span>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" id="tab-login" onclick="switchTab('login')">Login</button>
+      <button class="tab-btn" id="tab-signup" onclick="switchTab('signup')">Create Account</button>
+    </div>
+
+    <!-- LOGIN PANEL -->
+    <div class="panel active" id="panel-login">
+      <div class="msg" id="login-msg"></div>
+
+      <div class="field">
+        <label><i class="ti ti-user"></i> Username</label>
+        <input type="text" id="login-username" placeholder="Enter your username" autocomplete="username" />
+      </div>
+      <div class="field">
+        <label><i class="ti ti-lock"></i> Password</label>
+        <input type="password" id="login-password" placeholder="Enter your password" autocomplete="current-password" />
+      </div>
+
+      <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-text">user account</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <button class="submit-btn" onclick="login()">
+        <i class="ti ti-login"></i> Login
+      </button>
+    </div>
+
+    <!-- SIGNUP PANEL -->
+    <div class="panel" id="panel-signup">
+      <div class="msg" id="signup-msg"></div>
+
+      <div class="field">
+        <label><i class="ti ti-user-plus"></i> Username</label>
+        <input type="text" id="signup-username" placeholder="Choose a username" autocomplete="off" />
+      </div>
+      <div class="field">
+        <label><i class="ti ti-lock"></i> Password</label>
+        <input type="password" id="signup-password" placeholder="Create a password" autocomplete="new-password" />
+      </div>
+      <div class="field">
+        <label><i class="ti ti-lock-check"></i> Confirm Password</label>
+        <input type="password" id="signup-confirm" placeholder="Confirm your password" autocomplete="new-password" />
+      </div>
+
+      <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-text">free account</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <button class="submit-btn" onclick="signup()">
+        <i class="ti ti-user-check"></i> Create Account
+      </button>
+    </div>
+
+    <div class="card-footer">© 2026 SheCan Foundation · All rights reserved</div>
+  </div>
+
 <script>
-async function login() {
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
-
-  const res = await fetch("http://localhost:5000/api/login", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({ username, password, role: "user" })
-  });
-
-  if (res.status === 200) {
-    localStorage.setItem("user", "true");
-    window.location.href = "index.html";
-  } else {
-    const create = confirm("Wrong username. Create account?");
-    if (create) signup(username, password);
+  function switchTab(tab) {
+    document.getElementById('tab-login').classList.toggle('active', tab === 'login');
+    document.getElementById('tab-signup').classList.toggle('active', tab === 'signup');
+    document.getElementById('panel-login').classList.toggle('active', tab === 'login');
+    document.getElementById('panel-signup').classList.toggle('active', tab === 'signup');
+    hideMsg('login-msg');
+    hideMsg('signup-msg');
   }
-}
 
-async function signup(username, password) {
-  const res = await fetch("http://localhost:5000/api/signup", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({ username, password, role: "user" })
+  function showMsg(id, type, text) {
+    const el = document.getElementById(id);
+    el.className = `msg ${type} show`;
+    el.innerHTML = `<i class="ti ti-${type === 'error' ? 'alert-circle' : 'circle-check'}"></i> ${text}`;
+  }
+
+  function hideMsg(id) {
+    document.getElementById(id).className = 'msg';
+  }
+
+  async function login() {
+    const username = document.getElementById('login-username').value.trim();
+    const password = document.getElementById('login-password').value;
+
+    if (!username || !password) {
+      showMsg('login-msg', 'error', 'Please fill in all fields.');
+      return;
+    }
+
+    try {
+      const res = await fetch('http://localhost:5000/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password, role: 'user' })
+      });
+
+      if (res.status === 200) {
+        showMsg('login-msg', 'success', 'Login successful! Redirecting…');
+        localStorage.clear();
+        localStorage.setItem('user', 'true');
+        setTimeout(() => window.location.href = 'index.html', 800);
+      } else {
+        showMsg('login-msg', 'error', 'Wrong username or password.');
+      }
+    } catch {
+      showMsg('login-msg', 'error', 'Cannot reach server. Make sure it is running.');
+    }
+  }
+
+  async function signup() {
+    const username = document.getElementById('signup-username').value.trim();
+    const password = document.getElementById('signup-password').value;
+    const confirm  = document.getElementById('signup-confirm').value;
+
+    if (!username || !password || !confirm) {
+      showMsg('signup-msg', 'error', 'Please fill in all fields.');
+      return;
+    }
+    if (password !== confirm) {
+      showMsg('signup-msg', 'error', 'Passwords do not match.');
+      return;
+    }
+    if (password.length < 6) {
+      showMsg('signup-msg', 'error', 'Password must be at least 6 characters.');
+      return;
+    }
+
+    try {
+      const res = await fetch('http://localhost:5000/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password, role: 'user' })
+      });
+
+      const data = await res.json();
+
+      if (res.status === 200) {
+        showMsg('signup-msg', 'success', 'Account created! You can now login.');
+        document.getElementById('signup-username').value = '';
+        document.getElementById('signup-password').value = '';
+        document.getElementById('signup-confirm').value = '';
+        setTimeout(() => switchTab('login'), 1500);
+      } else if (res.status === 400) {
+        showMsg('signup-msg', 'error', 'Username already taken. Try a different one.');
+      } else {
+        showMsg('signup-msg', 'error', data.message || 'Something went wrong.');
+      }
+    } catch {
+      showMsg('signup-msg', 'error', 'Cannot reach server. Make sure it is running.');
+    }
+  }
+
+  // Allow Enter key
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      const active = document.querySelector('.panel.active').id;
+      if (active === 'panel-login') login();
+      else signup();
+    }
   });
-
-  const data = await res.json();
-  alert(data.message);
-}
 </script>
+
+</body>
+</html>
