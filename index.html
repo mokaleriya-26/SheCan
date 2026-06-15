@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>She Can Foundation – Tech Internship Application</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <div class="logo-box">
+        <img src="images/logo.jpg" alt="logo">
+      </div>
+      <span class="logo-name">She<span>Can</span> Foundation</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#" class="active">Home</a></li>
+      <li><a href="#">Our Story</a></li>
+      <li><a href="#">Our Certificate</a></li>
+      <li><a href="#">Donate</a></li>
+    </ul>
+    <button class="nav-cta">Donate Now</button>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="hero-tag"><i class="ti ti-sparkles"></i> Tech Internship 2026</div>
+        <h1>Together We Can<br>Change <span>The World</span></h1>
+        <p>We don't ask for much — just help us with what you can. Be it money, skill, or your time.</p>
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-num">500+</span>
+            <span class="stat-label">Women Empowered</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">12+</span>
+            <span class="stat-label">Tech Programs</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">3</span>
+            <span class="stat-label">Years of Impact</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="hero-slideshow">
+        <div class="hero-slide active">
+          <img src="images/ss1.jpeg" alt="Slideshow Image 1">
+        </div>
+        <div class="hero-slide">
+          <img src="images/ss2.jpeg" alt="Slideshow Image 2">
+        </div>
+        <div class="hero-slide">
+          <img src="images/ss3.jpeg" alt="Slideshow Image 3">
+        </div>
+        <div class="hero-slide">
+          <img src="images/ss4.jpeg" alt="Slideshow Image 4">
+        </div>
+        <div class="hero-slide">
+          <img src="images/ss5.jpeg" alt="Slideshow Image 5">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <div class="section">
+    <p class="section-label">Apply Now</p>
+    <h2 class="section-title">Tech Internship Application</h2>
+    <p class="section-sub">Fill in your details below and our team will reach out within 2–3 business days.</p>
+
+    <div class="card">
+      <div id="form-section">
+
+        <div class="row">
+          <div class="field">
+            <label><i class="ti ti-user"></i> First name</label>
+            <input type="text" id="fname" placeholder="Riya" />
+          </div>
+          <div class="field">
+            <label><i class="ti ti-user"></i> Last name</label>
+            <input type="text" id="lname" placeholder="Mokale" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label><i class="ti ti-mail"></i> Email address</label>
+          <input type="email" id="email" placeholder="riya@example.com" />
+        </div>
+
+        <div class="field">
+          <label><i class="ti ti-phone"></i> Phone number</label>
+          <input type="tel" id="phone" placeholder="+91 98765 43210" />
+        </div>
+
+        <div class="field">
+          <label><i class="ti ti-device-laptop"></i> Area of interest</label>
+          <select id="interest">
+            <option value="" disabled selected>Select your interest</option>
+            <option>Frontend Development</option>
+            <option>Backend Development</option>
+            <option>Full Stack Development</option>
+            <option>UI / UX Design</option>
+            <option>Data Science</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label><i class="ti ti-message"></i> Your message</label>
+          <textarea
+            id="msg"
+            placeholder="Tell us about yourself and why you want to intern with SheCan Foundation..."
+            maxlength="500"
+            oninput="document.getElementById('cc').textContent = this.value.length + '/500'"
+          ></textarea>
+          <div class="char-count" id="cc">0/500</div>
+        </div>
+
+        <div class="divider">
+          <div class="divider-line"></div>
+          <span class="divider-text">ready to make an impact?</span>
+          <div class="divider-line"></div>
+        </div>
+
+        <button class="submit-btn" onclick="submitForm()">
+          <i class="ti ti-send"></i> Submit Application
+        </button>
+
+      </div>
+
+      <!-- SUCCESS STATE -->
+      <div class="success" id="success-section">
+        <div class="success-icon"><i class="ti ti-check"></i></div>
+        <h3>Application Submitted!</h3>
+        <p>Thank you for applying. The SheCan team will get back to you within 2–3 business days.</p>
+        <button class="reset-btn" onclick="resetForm()">Submit another response</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    © 2026 <span>SheCan Foundation</span> · Together We Can Change The World
+  </footer>
+
+  <script>
+    function submitForm() {
+      const fname = document.getElementById('fname');
+      const email = document.getElementById('email');
+      const msg   = document.getElementById('msg');
+      let valid = true;
+
+      [fname, email, msg].forEach(el => {
+        el.classList.remove('error');
+        if (!el.value.trim()) { el.classList.add('error'); valid = false; }
+      });
+
+      if (!valid) return;
+
+      document.getElementById('form-section').style.display = 'none';
+      document.getElementById('success-section').style.display = 'flex';
+    }
+
+    function resetForm() {
+      ['fname','lname','email','phone','msg'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('interest').selectedIndex = 0;
+      document.getElementById('cc').textContent = '0/500';
+      ['fname','email','msg'].forEach(id => document.getElementById(id).classList.remove('error'));
+      document.getElementById('form-section').style.display = 'block';
+      document.getElementById('success-section').style.display = 'none';
+    }
+
+    // Slideshow Logic
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.hero-slide');
+    
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+    }
+    
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    }
+    
+    if (slides.length > 0) {
+      setInterval(nextSlide, 3500); // Change image every 3.5 seconds
+    }
+  </script>
+
+</body>
+</html>
