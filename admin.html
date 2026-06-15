@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #0d0d1a;
+      color: white;
+      padding: 20px;
+    }
+    h2 {
+      margin-bottom: 10px;
+    }
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    button {
+      padding: 8px 16px;
+      background: #e8420a;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+    button:hover {
+      background: #c73508;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background: #e8420a;
+    }
+    tr:nth-child(even) {
+      background: rgba(255,255,255,0.05);
+    }
+  </style>
+</head>
+<body>
+    <script>
+    // 🔐 Protect page
+    if (localStorage.getItem("admin") !== "true") {
+        window.location.href = "admin-login.html";
+    }
+    </script>
+    <div class="top-bar">
+        <h2>Admin Panel - Applications</h2>
+        <button onclick="logout()">Logout</button>
+    </div>
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Interest</th>
+                <th>Message</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script>
+        // 🚀 Fetch data from backend
+        fetch("http://localhost:5000/api/applications")
+        .then(res => res.json())
+        .then(data => {
+            const table = document.querySelector("#dataTable tbody");
+            if (data.length === 0) {
+                table.innerHTML = "<tr><td colspan='5'>No applications found</td></tr>";
+                return;
+            }
+            data.forEach(item => {
+                const row = `
+          <tr>
+            <td>${item.fname} ${item.lname}</td>
+            <td>${item.email}</td>
+            <td>${item.phone}</td>
+            <td>${item.interest}</td>
+            <td>${item.message}</td>
+          </tr>
+                `;
+                table.innerHTML += row;
+            });
+        })
+        .catch(err => {
+            alert("Error loading data");
+        });
+        // 🔓 Logout
+        function logout() {
+        localStorage.removeItem("admin");
+        window.location.href = "admin-login.html";
+        }
+    </script>
+</body>
+</html>

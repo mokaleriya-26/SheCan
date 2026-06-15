@@ -23,6 +23,13 @@
       <li><a href="#">Our Certificate</a></li>
       <li><a href="#">Donate</a></li>
     </ul>
+    <button class="nav-login" onclick="window.location.href='login.html'">
+        User Login
+    </button>
+    <button class="nav-login" onclick="window.location.href='admin-login.html'">
+        Admin Login
+    </button>
+
     <button class="nav-cta">Donate Now</button>
   </nav>
 
@@ -69,6 +76,31 @@
     </div>
   </div>
 
+
+  <!-- JOIN TEAM SECTION -->
+<div class="join-section">
+  <div class="join-container">
+<!-- LEFT IMAGE -->
+<div class="join-image">
+  <img src="images/team.png" alt="Join our team">
+</div>
+<!-- RIGHT CONTENT -->
+<div class="join-content">
+  <p class="join-sub">JOIN OUR</p>
+  <h2 class="join-title">TEAM</h2>
+  <p class="join-text">
+    Join our team and make a difference in the lives of women in need.
+    At She Can Foundation, we are committed to creating positive change
+    and empowering women in communities across the globe.
+    By joining our team, you will have the opportunity to contribute your
+    time, skills, and ideas to create real impact.
+  </p>
+  <button class="join-btn" onclick="document.querySelector('.section').scrollIntoView({behavior:'smooth'})">
+    JOIN US
+  </button>
+</div>
+  </div>
+</div>
   <!-- FORM -->
   <div class="section">
     <p class="section-label">Apply Now</p>
@@ -151,21 +183,42 @@
   </footer>
 
   <script>
-    function submitForm() {
-      const fname = document.getElementById('fname');
-      const email = document.getElementById('email');
-      const msg   = document.getElementById('msg');
-      let valid = true;
+    async function submitForm() {
+        if (!localStorage.getItem("user")) {
+            alert("Please login first");
+            window.location.href = "login.html";
+            return;
+        }
+        const data = {
+            fname: fname.value,
+            lname: lname.value,
+            email: email.value,
+            phone: phone.value,
+            interest: interest.value,
+            message: msg.value
+        };
 
-      [fname, email, msg].forEach(el => {
-        el.classList.remove('error');
-        if (!el.value.trim()) { el.classList.add('error'); valid = false; }
-      });
+        if (!data.fname || !data.email || !data.message) {
+            alert("Please fill required fields");
+            return;
+        }
 
-      if (!valid) return;
+        try {
+            const res = await fetch("http://localhost:5000/api/submit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
 
-      document.getElementById('form-section').style.display = 'none';
-      document.getElementById('success-section').style.display = 'flex';
+            const result = await res.json();
+            document.getElementById('form-section').style.display = 'none';
+            document.getElementById('success-section').style.display = 'flex';
+
+        } catch (err) {
+            alert("Error submitting form");
+        }
     }
 
     function resetForm() {

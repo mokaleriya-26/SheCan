@@ -94,7 +94,20 @@ nav {
 
 .nav-cta:hover { background: #c73508; }
 .nav-cta:active { transform: scale(0.97); }
+.nav-login {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    padding: 8px 16px;
+    margin-right: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
 
+.nav-login:hover {
+    border-color: #e8420a;
+    color: #e8420a;
+}
 /* ── HERO BANNER ── */
 .hero {
     background: linear-gradient(135deg, #0d0d1a 0%, #1a0a00 60%, #2a0800 100%);
@@ -471,4 +484,82 @@ footer span { color: #e8420a; }
     .hero-slideshow {
         height: 220px;
     }
+}
+/* ── JOIN TEAM SECTION ── */
+.join-section {
+background: #0b0b14;
+padding: 4rem 2rem;
+}
+
+.join-container {
+display: flex;
+align-items: center;
+gap: 3rem;
+max-width: 1200px;
+margin: auto;
+}
+
+.join-image {
+flex: 1;
+}
+
+.join-image img {
+width: 100%;
+border-radius: 12px;
+object-fit: cover;
+}
+
+.join-content {
+flex: 1;
+}
+
+.join-sub {
+letter-spacing: 5px;
+color: rgba(255,255,255,0.5);
+font-size: 12px;
+margin-bottom: 10px;
+}
+
+.join-title {
+font-size: 56px;
+color: #e8420a;
+font-weight: 800;
+margin-bottom: 20px;
+}
+
+.join-text {
+color: rgba(255,255,255,0.6);
+line-height: 1.7;
+margin-bottom: 30px;
+}
+
+.join-btn {
+background: #e8420a;
+border: none;
+color: white;
+padding: 12px 28px;
+font-weight: 700;
+cursor: pointer;
+border-radius: 6px;
+transition: 0.2s;
+}
+
+.join-btn:hover {
+background: #c73508;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+.join-container {
+flex-direction: column;
+}
+
+.join-title {
+    font-size: 40px;
+    text-align: center;
+}
+.join-content {
+    text-align: center;
+}
+
 }

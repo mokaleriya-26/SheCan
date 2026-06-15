@@ -1,0 +1,27 @@
+{
+  "name": "shecan",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mokaleriya-26/SheCan.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/mokaleriya-26/SheCan/issues"
+  },
+  "homepage": "https://github.com/mokaleriya-26/SheCan#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "mongoose": "^9.7.0",
+    "sqlite3": "^6.0.1"
+  }
+}

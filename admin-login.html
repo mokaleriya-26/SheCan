@@ -1,0 +1,31 @@
+<script>
+async function login() {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+  const res = await fetch("http://localhost:5000/api/login", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({ username, password, role: "admin" })
+  });
+
+  if (res.status === 200) {
+    localStorage.setItem("admin", "true");
+    window.location.href = "admin.html";
+  } else {
+    const create = confirm("Wrong username. Create account?");
+    if (create) signup(username, password);
+  }
+}
+
+async function signup(username, password) {
+  const res = await fetch("http://localhost:5000/api/signup", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({ username, password, role: "admin" })
+  });
+
+  const data = await res.json();
+  alert(data.message);
+}
+</script>
