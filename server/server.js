@@ -34,7 +34,7 @@ const { username, password, role } = req.body;
 db.get("SELECT * FROM users WHERE username = ?", [username], (err, row) => {
   if (err) return res.status(500).json({ error: err.message });
   if (row) {
-    return res.status(400).json({ message: "User already exists" });
+    return res.status(400).json({ message: "Username already taken. Please choose a different one." });
   }
 
 db.run(
@@ -64,4 +64,9 @@ res.status(401).json({ success: false, message: "Wrong username or password" });
 }
 }
 );
+});
+
+const PORT = 5000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });

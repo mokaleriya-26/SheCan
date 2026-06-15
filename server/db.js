@@ -9,11 +9,26 @@ console.log("Connected to SQLite database");
 }
 });
 
-// Create tables
+// Create tables and seed default accounts
 db.serialize(() => {
-db.run(`CREATE TABLE IF NOT EXISTS applications ( id INTEGER PRIMARY KEY AUTOINCREMENT, fname TEXT, lname TEXT, email TEXT, phone TEXT, interest TEXT, message TEXT )`);
+  db.run(`CREATE TABLE IF NOT EXISTS applications ( id INTEGER PRIMARY KEY AUTOINCREMENT, fname TEXT, lname TEXT, email TEXT, phone TEXT, interest TEXT, message TEXT )`);
 
-db.run(`CREATE TABLE IF NOT EXISTS users ( id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, role TEXT )`);
+  db.run(`CREATE TABLE IF NOT EXISTS users ( id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, role TEXT )`, () => {
+    // Seed default user
+    db.get("SELECT * FROM users WHERE username = 'riya'", (err, row) => {
+      if (!row) {
+        db.run("INSERT INTO users (username, password, role) VALUES ('riya', 'testpassword', 'user')");
+        console.log("Seeded default user: riya / testpassword");
+      }
+    });
+    // Seed default admin
+    db.get("SELECT * FROM users WHERE username = 'admin'", (err, row) => {
+      if (!row) {
+        db.run("INSERT INTO users (username, password, role) VALUES ('admin', 'adminpassword', 'admin')");
+        console.log("Seeded default admin: admin / adminpassword");
+      }
+    });
+  });
 });
 
 module.exports = db;
